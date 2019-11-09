@@ -71,3 +71,7 @@
 - npm run build:extension:chrome 生成一个文件 react-devtools -> shells -> chrome -> build 下的unpacked文件
 
 - 打开chrome扩展程序chrome://extensions/，加载已解压的扩展程序 unpacked文件
+
+## 配置开发环境跨域
+
+- 在package.json文件下面 添加 "proxy": "http://localhost:9000" 地址为你开发服务器地址

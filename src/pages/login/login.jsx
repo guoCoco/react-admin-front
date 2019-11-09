@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, message } from 'antd';
+import { reqLogin } from '../../api/index'
+import memory from '../../utils/memory'
 import './login.less'
 
 /**
@@ -16,16 +18,25 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
         // 没有错误就是校验通过
-        console.log('提交表单')
+        const { username, password } = values
+        const res = await reqLogin(username, password)
+        console.log(res)
+        if (res.code === '0') {
+          // 不需要回退到 登录页
+          message.success('登录成功')
+          memory.user = values
+          this.props.history.replace('/')
+        } else{
+          message.error(res.msg)
+        }
       }
     });
   }
 
   validatePwd = (rule, value, callback) => {
-    console.log(value)
     if (!value) {
       callback('密码不能为空')
     } else if (value.length < 4) {
