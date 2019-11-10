@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Form, Icon, Input, Button, message } from 'antd';
 import { reqLogin } from '../../api/index'
 import memory from '../../utils/memory'
+import storage from '../../utils/storage'
 import './login.less'
 
 /**
@@ -23,11 +25,10 @@ class Login extends Component {
         // 没有错误就是校验通过
         const { username, password } = values
         const res = await reqLogin(username, password)
-        console.log(res)
         if (res.code === '0') {
           // 不需要回退到 登录页
           message.success('登录成功')
-          memory.user = values
+          storage.setUser(values)
           this.props.history.replace('/')
         } else{
           message.error(res.msg)
@@ -52,6 +53,10 @@ class Login extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
+    const user = memory.user
+    if (user.username) {
+      return <Redirect to='/' />
+    }
     return (
       <div className='login'>
         <header className='login-header'>
