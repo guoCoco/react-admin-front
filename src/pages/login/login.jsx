@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Form, Icon, Input, Button, message } from 'antd';
 import { reqLogin } from '../../api/index'
-import memory from '../../utils/memory'
 import storage from '../../utils/storage'
 import './login.less'
 
@@ -53,7 +52,7 @@ class Login extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
-    const user = memory.user
+    const user = storage.getUser() || {}
     if (user.username) {
       return <Redirect to='/' />
     }

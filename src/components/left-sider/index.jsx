@@ -8,6 +8,11 @@ import './index.less'
 
 const { SubMenu } = Menu;
 
+/**
+ * 默认展开项
+ * 选中默认项的处理
+*/
+
 class LeftSider extends Component {
   
   getMenuNodes = (menuList) => {
