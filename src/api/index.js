@@ -19,3 +19,8 @@ export const reqWeather = (city) => {
 
 // 请求商品列表
 export const reqCategoryList = (parentId) => ajax('/api/category/list', {parentId})
+
+// 更新分类
+export const reqUpdateCategory = (data) => ajax('/api/category/update', {categoryId: data.categoryId, categoryName: data.categoryName}) 
+
+// 添加分类
