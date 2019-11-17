@@ -24,3 +24,4 @@ export const reqCategoryList = (parentId) => ajax('/api/category/list', {parentI
 export const reqUpdateCategory = (data) => ajax('/api/category/update', {categoryId: data.categoryId, categoryName: data.categoryName}) 
 
 // 添加分类
+export const reqAddCategory = (parentId, categoryName) => ajax('/api/category/add', {parentId, categoryName})

@@ -17,7 +17,7 @@ const menuList = [
       {
         title: '商品管理',
         icon: 'appstore',
-        key: '/goods/manager'
+        key: '/product'
       }
     ]
   },

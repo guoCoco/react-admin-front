@@ -54,9 +54,16 @@
   },
 ```
 
+
 ## 引入路由
 
 - yarn add react-router-dom
+- router 的匹配规则是逐级匹配
+- Route Redirect Switch 等组件  
+- Route 有 path component 属性 exact 精准匹配
+- Switch 只匹配一个 Route中的一个
+- Redirect  to 属性 从定向的路径
+- withRouter 高阶路由组件  包裹非路由组件， 获取路由相关的属性
 
 ## react-devtools react调试工具安装
 
@@ -80,3 +87,4 @@
 
 - 父组件通过props属性可以将父组件数据传递给子组件
 - 同样使用 props 状态提升 传递 方法 子组件向父组件传递数据, 在子组件调用函数，在父组件中声明函数
+

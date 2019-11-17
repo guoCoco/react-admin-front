@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Card, Table, Button, Icon } from 'antd'
 import LinkButton from '../../components/link-button/index'
-import { reqCategoryList, reqUpdateCategory } from '../../api/index'
+import { reqCategoryList, reqUpdateCategory, reqAddCategory } from '../../api/index'
 import AddForm from './comonents/add-form'
 import UpdateForm from './comonents/update-form'
 
@@ -90,29 +90,54 @@ export default class Category extends Component {
   }
 
   // 更新分类
-  updateCategory = async() => {
-    // 1. 关闭弹框
-    this.setState({
-      modalStatus: 0
+  updateCategory = () => {
+    this.form.validateFields(async(err, values) => {
+      if(!err) {
+        // 1. 关闭弹框
+        this.setState({
+          modalStatus: 0
+        })
+
+        
+        const categoryId = this.category._id
+        const {categoryName} = values
+
+        // 清除数据
+        this.form.resetFields()
+
+
+        // 2. 发送请求更新
+        const res = await reqUpdateCategory({categoryId, categoryName})
+        if (res.code === '0') {
+          // 3.重新渲染列表
+          this.getCategorys()
+        }
+      }
     })
-
-    
-    const categoryId = this.category._id
-    const categoryName = this.form.getFieldValue('categoryName')
-
-    // 清除数据
-    this.form.resetFields()
-
-
-    // 2. 发送请求更新
-    const res = await reqUpdateCategory({categoryId, categoryName})
-    if (res.code === '0') {
-       // 3.重新渲染列表
-      this.getCategorys()
-    }
   }
 
-  addCategory = () => {}
+  addCategory = () => {
+    this.form.validateFields(async(err, values) => {
+      if(!err) {
+        const {categoryName, parentId} = values
+        this.setState({
+          modalStatus: 0
+        })
+        
+        console.log(categoryName, parentId)
+        const res = await reqAddCategory(parentId, categoryName)
+
+        // 清除数据
+        this.form.resetFields()
+
+        if (res.code === '0') {
+          if (parentId === this.state.parentId) {
+            this.getCategorys()
+          }
+        }
+      }
+    })
+  }
 
   getBackCategory = () => {
     this.setState({
@@ -158,7 +183,10 @@ export default class Category extends Component {
           visible={modalStatus === 1}
           onOk={this.addCategory}
           onCancel={this.handleCancel}>
-          <AddForm/>
+          <AddForm
+            setForm={(form) => {this.form = form}}
+            parentId={parentId}
+          />
         </Modal>
         <Modal
           title="修改分类"
